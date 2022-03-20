@@ -8,15 +8,21 @@ const getClientAge = (clientBirthday: Date) => {
   function calculateClientAge() {
     let age = currentDate.getFullYear() - birthdayYear;
 
-    const isTheBirthdayMonthGreaterThanOrEqualTheCurrentMonth =
+    const isTheBirthdayMonthGreaterThanTheCurrentMonth =
       // no javaScript quando se usa a data atual ele retorna o mes começando do zero por isso precisa acrescentar +1
-      birthdayDate.getMonth() >= currentDate.getMonth() + 1;
+      birthdayDate.getMonth() > currentDate.getMonth() + 1;
 
-    const isTheBirthdayDayGreaterThanTheCurrentDay =
+    const isTheBirthdayMonthEqualsThanTheCurrentMonth =
+      // no javaScript quando se usa a data atual ele retorna o mes começando do zero por isso precisa acrescentar +1
+      birthdayDate.getMonth() == currentDate.getMonth() + 1;
+
+    const isTheBirthdayGreaterThanTheCurrentDay =
       birthdayDate.getDate() > currentDate.getDate();
 
-    if (isTheBirthdayMonthGreaterThanOrEqualTheCurrentMonth) {
-      if (isTheBirthdayDayGreaterThanTheCurrentDay) {
+    if (isTheBirthdayMonthGreaterThanTheCurrentMonth) {
+      age = age - 1;
+    } else if (isTheBirthdayMonthEqualsThanTheCurrentMonth) {
+      if (isTheBirthdayGreaterThanTheCurrentDay) {
         age = age - 1;
       }
     }
