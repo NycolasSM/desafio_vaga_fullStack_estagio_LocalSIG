@@ -1,0 +1,26 @@
+.register__client__form {
+  width: 100%;
+  border-top: 8px cadetblue solid;
+  border-radius: 4px;
+  margin: auto;
+  padding: 30px 20px;
+  max-width: 400px;
+  background-color: rgb(207, 207, 207);
+  -webkit-box-shadow: 3px 3px 15px 5px rgba(0,0,0,0.44); 
+  box-shadow: 3px 3px 15px 5px rgba(0,0,0,0.44);
+}
+
+.register__client__form__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0px;
+  width: 100%;
+}
+
+.register__client__form__button {
+  width: 70%;
+  padding: 5px 0px;
+  border-radius: 4px;
+  border: 1px solid gray;
+  margin: 0 auto;
+}

@@ -1,0 +1,30 @@
+.register__client__form__field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.register__client__form__field__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  color: black;
+  background-color: #b3b2b2;
+  border: 1px solid #919191;
+}
+
+.register__client__form__field input {
+  height: 40px;
+  width: 100%;
+  font-size: 1.1rem;
+  border-radius: 2px;
+  padding: 4px 8px;
+  background-color: #b3b2b2;
+  border: 1px solid #919191;
+}
+
+.register__client__form__field input:focus {
+  outline: 1px solid #5c5c5c;
+}
