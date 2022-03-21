@@ -18,8 +18,6 @@ export class CreateClientController {
       throw new AppError("este CPF ja foi cadastrado");
     }
 
-    //TODO verificar se a data veio no formato correto
-
     const age = getClientAge(clientBirthday);
     const birthDate = formatDate(clientBirthday);
 
@@ -32,6 +30,6 @@ export class CreateClientController {
       },
     });
 
-    return response.json(client);
+    return response.status(201).json(client);
   }
 }

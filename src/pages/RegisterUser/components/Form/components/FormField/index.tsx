@@ -1,5 +1,3 @@
-import { useRef } from "react";
-
 import "./style.css";
 
 type Props = {
@@ -8,7 +6,9 @@ type Props = {
   id: string;
   name: string;
   icon: any;
-  onChange?: () => void;
+  maxLenght?: number;
+  isRequired?: boolean;
+  onChange?: (event: any) => void;
 };
 
 const FormField: React.FC<Props> = ({
@@ -17,10 +17,10 @@ const FormField: React.FC<Props> = ({
   id,
   name,
   icon,
+  isRequired = true,
+  maxLenght,
   onChange,
 }) => {
-  const ref = useRef();
-
   return (
     <>
       <div className="register__client__form__field">
@@ -33,8 +33,8 @@ const FormField: React.FC<Props> = ({
           id={id}
           name={name}
           onChange={onChange}
-          onFocus={() => (ref.current!.type = "date")}
-          onBlur={() => (ref.current.type = "text")}
+          maxLength={maxLenght}
+          required={isRequired}
         />
       </div>
     </>
