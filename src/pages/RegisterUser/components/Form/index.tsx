@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 
 import FormField from "./components/FormField";
+import { cpfValidation } from "../../../../utils/validateCPF";
 
 import { AiOutlineUser } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
@@ -19,8 +20,8 @@ const FormRegisterClient = () => {
   function onSubmitForm(event: any) {
     event.preventDefault();
 
-    let isValidDate = false;
-    let isValidCPF = false;
+    let isValidDate = true;
+    let isValidCPF = true;
 
     const validateDate = () => {
       const inputDate = form.birthDate;
@@ -30,7 +31,7 @@ const FormRegisterClient = () => {
       if (dateToCompare < currentDate) {
         isValidDate = true;
       } else {
-        isValidDate = false;
+        return alert("data inserida esta incorreta");
       }
     };
 
@@ -38,16 +39,27 @@ const FormRegisterClient = () => {
       window.location.reload();
     }
 
-    function formatCpf() {
-      const cpfWithoutSpecialCharacters = form.cpf.replace(/-(?!>)/g, "");
-      setForm({ ...form, cpf: cpfWithoutSpecialCharacters });
+    function CPFValidation() {
+      function formatCpf() {
+        const cpfWithoutSpecialCharacters = form.cpf.replace(/-(?!>)/g, "");
+        console.log(form);
+        setForm({ ...form, cpf: cpfWithoutSpecialCharacters });
+        console.log(form);
+      }
 
-      isValidCPF = true;
+      formatCpf();
+      // console.log(`cpf formatado: ${form.cpf}`);
+      // console.log(`cpf formatado: ${form}`);
+
+      if (cpfValidation(form.cpf)) {
+        isValidCPF = true;
+      }
     }
 
     validateDate();
-    // validateCPF(); // criar a função
-    formatCpf();
+    CPFValidation();
+
+    console.log(form);
 
     if (isValidDate && isValidCPF) {
       axios
@@ -57,10 +69,9 @@ const FormRegisterClient = () => {
           alert("usuário cadastrado");
         })
         .catch((e) => {
-          alert(e.response.data.error);
+          alert(e.response.data.message);
+          console.log(e.response.data.message);
         });
-    } else {
-      alert("data inserida esta incorreta");
     }
   }
 
