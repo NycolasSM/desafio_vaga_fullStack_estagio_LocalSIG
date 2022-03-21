@@ -4,7 +4,7 @@ import InputWithMask from "react-input-mask";
 
 type Props = {
   type: string;
-  placeHolder: string;
+  placeHolder?: string;
   id: string;
   name: string;
   icon: any;
@@ -12,6 +12,7 @@ type Props = {
   isRequired?: boolean;
   mask?: string;
   value?: any;
+  label?: string;
   onChange?: (event: any) => void;
 };
 
@@ -25,6 +26,7 @@ const FormField: React.FC<Props> = ({
   maxLenght,
   mask,
   value,
+  label,
   onChange,
 }) => {
   return (
@@ -45,6 +47,7 @@ const FormField: React.FC<Props> = ({
             alwaysShowMask={false}
             value={value}
           />
+          <span>{label}</span>
         </div>
       ) : (
         <div className="register__client__form__field">
@@ -61,6 +64,7 @@ const FormField: React.FC<Props> = ({
             required={isRequired}
             value={value}
           />
+          <span>{label}</span>
         </div>
       )}
     </>

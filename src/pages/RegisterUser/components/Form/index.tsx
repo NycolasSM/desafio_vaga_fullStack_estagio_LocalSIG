@@ -38,10 +38,8 @@ const FormRegisterClient = () => {
 
     async function validateCPF() {
       if (cpfValidation(cpfFormated) === true) {
-        console.log(cpfFormated);
         isValidCPF = true;
       } else {
-        console.log(cpfFormated);
         alert("cpf invalido");
       }
     }
@@ -84,7 +82,7 @@ const FormRegisterClient = () => {
     <form className="register__client__form" onSubmit={onSubmitForm}>
       <div className="register__client__form__container">
         <FormField
-          icon={<AiOutlineUser size={22} />}
+          icon={<AiOutlineUser size={26} />}
           type="text"
           placeHolder="Nome Completo"
           id="fullName"
@@ -93,7 +91,7 @@ const FormRegisterClient = () => {
           onChange={(event) => formChange(event)}
         />
         <FormField
-          icon={<FaRegAddressCard size={22} />}
+          icon={<FaRegAddressCard size={23} />}
           type="text"
           placeHolder="CPF"
           id="cpf"
@@ -103,11 +101,11 @@ const FormRegisterClient = () => {
           onChange={(event) => formChange(event)}
         />
         <FormField
-          icon={<BsCalendar3 size={22} />}
+          icon={<BsCalendar3 size={23} />}
           type="date"
-          placeHolder="Data de Nascimento"
           id="birthDate"
           name="birthDate"
+          label="Data de Nascimento"
           value={form.birthDate}
           onChange={(event) => formChange(event)}
         />
