@@ -5,7 +5,7 @@
   margin: auto;
   padding: 30px 20px;
   max-width: 400px;
-  background-color: rgb(207, 207, 207);
+  background-color: #cfcfcf;
   -webkit-box-shadow: 3px 3px 15px 5px rgba(0,0,0,0.44); 
   box-shadow: 3px 3px 15px 5px rgba(0,0,0,0.44);
 }
