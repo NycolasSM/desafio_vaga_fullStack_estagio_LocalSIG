@@ -17,13 +17,14 @@ const FormRegisterClient = () => {
     cpf: "",
   });
 
-  function onSubmitForm(event: any) {
+  async function onSubmitForm(event: any) {
     event.preventDefault();
 
-    let isValidDate = true;
-    let isValidCPF = true;
+    let isValidDate = false;
+    let isValidCPF = false;
+    const cpfFormated = form.cpf.replace(/-(?!>)/g, "");
 
-    const validateDate = () => {
+    function validateDate() {
       const inputDate = form.birthDate;
       const dateToCompare = new Date(inputDate.split("/").reverse().join("/"));
       const currentDate = new Date();
@@ -31,53 +32,50 @@ const FormRegisterClient = () => {
       if (dateToCompare < currentDate) {
         isValidDate = true;
       } else {
-        return alert("data inserida esta incorreta");
+        alert("data inserida esta incorreta");
       }
-    };
-
-    function refreshPage() {
-      window.location.reload();
     }
 
-    function CPFValidation() {
-      function formatCpf() {
-        const cpfWithoutSpecialCharacters = form.cpf.replace(/-(?!>)/g, "");
-        console.log(form);
-        setForm({ ...form, cpf: cpfWithoutSpecialCharacters });
-        console.log(form);
-      }
-
-      formatCpf();
-      // console.log(`cpf formatado: ${form.cpf}`);
-      // console.log(`cpf formatado: ${form}`);
-
-      if (cpfValidation(form.cpf)) {
+    async function validateCPF() {
+      if (cpfValidation(cpfFormated) === true) {
+        console.log(cpfFormated);
         isValidCPF = true;
+      } else {
+        console.log(cpfFormated);
+        alert("cpf invalido");
       }
+    }
+
+    async function cleanFields() {
+      setForm({
+        fullName: "",
+        birthDate: "",
+        cpf: "",
+      });
     }
 
     validateDate();
-    CPFValidation();
-
-    console.log(form);
+    validateCPF();
 
     if (isValidDate && isValidCPF) {
       axios
-        .post("http://localhost:3001/clients", form)
+        .post("http://localhost:3001/clients", {
+          fullName: form.fullName,
+          birthDate: form.birthDate,
+          cpf: cpfFormated,
+        })
         .then(() => {
-          refreshPage();
           alert("usuário cadastrado");
+          cleanFields();
         })
         .catch((e) => {
           alert(e.response.data.message);
-          console.log(e.response.data.message);
         });
     }
   }
 
   function formChange(event: any) {
     const { name, value } = event.target;
-    console.log(form);
 
     setForm({ ...form, [name]: value });
   }
@@ -91,6 +89,7 @@ const FormRegisterClient = () => {
           placeHolder="Nome Completo"
           id="fullName"
           name="fullName"
+          value={form.fullName}
           onChange={(event) => formChange(event)}
         />
         <FormField
@@ -100,6 +99,7 @@ const FormRegisterClient = () => {
           id="cpf"
           name="cpf"
           mask="cpf"
+          value={form.cpf}
           onChange={(event) => formChange(event)}
         />
         <FormField
@@ -108,6 +108,7 @@ const FormRegisterClient = () => {
           placeHolder="Data de Nascimento"
           id="birthDate"
           name="birthDate"
+          value={form.birthDate}
           onChange={(event) => formChange(event)}
         />
         <button className="register__client__form__button" type="submit">

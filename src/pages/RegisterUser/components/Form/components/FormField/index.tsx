@@ -11,6 +11,7 @@ type Props = {
   maxLenght?: number;
   isRequired?: boolean;
   mask?: string;
+  value?: any;
   onChange?: (event: any) => void;
 };
 
@@ -23,6 +24,7 @@ const FormField: React.FC<Props> = ({
   isRequired = true,
   maxLenght,
   mask,
+  value,
   onChange,
 }) => {
   return (
@@ -41,6 +43,7 @@ const FormField: React.FC<Props> = ({
             onChange={onChange}
             mask="999-999-999-99"
             alwaysShowMask={false}
+            value={value}
           />
         </div>
       ) : (
@@ -56,6 +59,7 @@ const FormField: React.FC<Props> = ({
             onChange={onChange}
             maxLength={maxLenght}
             required={isRequired}
+            value={value}
           />
         </div>
       )}
