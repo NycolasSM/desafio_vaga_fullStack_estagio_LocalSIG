@@ -7,6 +7,7 @@ import FormField from "./components/FormField";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsCalendar3 } from "react-icons/bs";
+import axios from "axios";
 
 const FormRegisterClient = () => {
   const [form, setForm] = useState({
@@ -15,27 +16,41 @@ const FormRegisterClient = () => {
     cpf: "",
   });
 
-  const [signError, setSignError] = useState();
+  const [signError, setSignError] = useState<string>();
 
   function onSubmitForm(event: any) {
     event.preventDefault();
 
     const isDateInvalid = () => {
-      const inputDate = "22/03/2022";
+      const inputDate = "22/01/2022";
       const dateToCompare = new Date(inputDate.split("/").reverse().join("/"));
       const currentDate = new Date();
 
-      if (dateToCompare > currentDate) {
+      if (dateToCompare < currentDate) {
         return true;
       } else {
         return false;
       }
     };
 
-    if (isDateInvalid() === true) {
-      alert("data informada está invalida");
+    function refreshPage() {
+      window.location.reload();
+    }
+
+    if (isDateInvalid()) {
+      axios
+        .post("http://localhost:3001/clients", form)
+        .then(() => {
+          refreshPage();
+          setSignError("asd");
+          alert("formulario enviado");
+        })
+        .catch((e) => {
+          setSignError(e.response.data.error);
+          alert(e.response.data.error);
+        });
     } else {
-      console.log("enviou");
+      alert("data inserida esta incorreta");
     }
   }
 
