@@ -1,5 +1,6 @@
 import "./style.css";
 
+import axios from "axios";
 import { useState } from "react";
 
 import FormField from "./components/FormField";
@@ -7,7 +8,6 @@ import FormField from "./components/FormField";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaRegAddressCard } from "react-icons/fa";
 import { BsCalendar3 } from "react-icons/bs";
-import axios from "axios";
 
 const FormRegisterClient = () => {
   const [form, setForm] = useState({
@@ -16,20 +16,21 @@ const FormRegisterClient = () => {
     cpf: "",
   });
 
-  const [signError, setSignError] = useState<string>();
-
   function onSubmitForm(event: any) {
     event.preventDefault();
 
-    const isDateInvalid = () => {
-      const inputDate = "22/01/2022";
+    let isValidDate = false;
+    let isValidCPF = false;
+
+    const validateDate = () => {
+      const inputDate = form.birthDate;
       const dateToCompare = new Date(inputDate.split("/").reverse().join("/"));
       const currentDate = new Date();
 
       if (dateToCompare < currentDate) {
-        return true;
+        isValidDate = true;
       } else {
-        return false;
+        isValidDate = false;
       }
     };
 
@@ -37,16 +38,25 @@ const FormRegisterClient = () => {
       window.location.reload();
     }
 
-    if (isDateInvalid()) {
+    function formatCpf() {
+      const cpfWithoutSpecialCharacters = form.cpf.replace(/-(?!>)/g, "");
+      setForm({ ...form, cpf: cpfWithoutSpecialCharacters });
+
+      isValidCPF = true;
+    }
+
+    validateDate();
+    // validateCPF(); // criar a função
+    formatCpf();
+
+    if (isValidDate && isValidCPF) {
       axios
         .post("http://localhost:3001/clients", form)
         .then(() => {
           refreshPage();
-          setSignError("asd");
-          alert("formulario enviado");
+          alert("usuário cadastrado");
         })
         .catch((e) => {
-          setSignError(e.response.data.error);
           alert(e.response.data.error);
         });
     } else {
@@ -78,6 +88,7 @@ const FormRegisterClient = () => {
           placeHolder="CPF"
           id="cpf"
           name="cpf"
+          mask="cpf"
           onChange={(event) => formChange(event)}
         />
         <FormField
